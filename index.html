@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Shoutbox</title>
+  </head>
+  <body>
+  <div id="messages"></div>
+  <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-firestore.js"></script>
+  <script>
+    var config = {
+      apiKey: "AIzaSyDvAa0JAemTE7qtm4X7okfr2D2HxwHuy5c",
+      authDomain: "shoutbox-test.firebaseapp.com",
+      projectId: "shoutbox-test"  
+    };
+    firebase.initializeApp(config);
+
+    var db = firebase.firestore();
+    db.collection("messages").add({
+      name: "Tester2",
+      message: "just testing2",
+      time: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    var messagesDiv = document.getElementById('messages');
+    
+    db.collection("messages")
+      .onSnapshot(function(snapshot) {     
+        snapshot.docChanges.forEach(function(change) {
+          if (change.type === "added") {
+            console.log(change.doc.id, " => ", change.doc.data());
+            var newDiv = document.createElement("div");
+            newDiv.innerHTML = `
+              <p class="time">${change.doc.data().time}</p>
+              <p class="name">${change.doc.data().name}</p>
+              <p class="message">${change.doc.data().message}</p>
+              <br/>`;
+            messagesDiv.appendChild(newDiv);
+          }
+        });    
+    });
+  </script>
+  </body>
+</html>
