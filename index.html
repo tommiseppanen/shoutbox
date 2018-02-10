@@ -44,9 +44,9 @@
             if (change.type === "added") {
               console.log(change.doc.id, " => ", change.doc.data());
               var newDiv = document.createElement("div");
-              var time = change.doc.data().time == null ? new Date(Date.now()).toLocaleString() : change.doc.data().time;
+              var time = change.doc.data().time == null ? new Date(Date.now()) : change.doc.data().time;
               newDiv.innerHTML = `
-                <span class="name">${change.doc.data().name}</span> <span class="time">${time}</span>
+                <span class="name">${change.doc.data().name}</span> <span class="time">${time.toLocaleString()}</span>
                 <p class="message">${change.doc.data().message}</p>
                 <br/>`;
               messagesDiv.appendChild(newDiv);
