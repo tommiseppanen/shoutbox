@@ -1,6 +1,8 @@
 <!doctype html>
 <html>
   <head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Shoutbox</title>
   </head>
   <body>
@@ -36,6 +38,11 @@
         return false;
       }
 
+      function getTimeString(time) {
+        var minutePart = time.getMinutes() < 10 ? "0"+time.getMinutes() : time.getMinutes();
+        return time.getDate()+"."+(time.getMonth()+1)+". "+time.getHours()+":"+minutePart;
+      }
+
       var messagesDiv = document.getElementById('messages');
       
       db.collection("messages").orderBy('time')
@@ -44,11 +51,12 @@
             if (change.type === "added") {
               console.log(change.doc.id, " => ", change.doc.data());
               var newDiv = document.createElement("div");
+              newDiv.className = "message";
               var time = change.doc.data().time == null ? new Date(Date.now()) : change.doc.data().time;
+              
               newDiv.innerHTML = `
-                <span class="name">${change.doc.data().name}</span> <span class="time">${time.toLocaleString()}</span>
-                <p class="message">${change.doc.data().message}</p>
-                <br/>`;
+                <span class="name">${change.doc.data().name}</span> <span class="time">${getTimeString(time)}</span>
+                <p class="text">${change.doc.data().message}</p>`;
               messagesDiv.appendChild(newDiv);
             }
           });    
