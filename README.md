@@ -11,3 +11,6 @@ service cloud.firestore {
   }
 }
 ```
+
+TODO:
+- Polyfill for template literals or just get rid of them
