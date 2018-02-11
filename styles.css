@@ -30,3 +30,11 @@ body {
     padding-bottom: 4em;
     background-color: white;
 }
+
+.button {
+    text-decoration: none;
+    border-radius: 0.25em;
+    padding: 0.4em 1.5em;
+    color: white;
+    background-color: #29799E;
+}
